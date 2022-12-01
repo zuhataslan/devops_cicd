@@ -1,0 +1,28 @@
+---
+kind: Pod
+apiVersion: v1
+metadata:
+  name: flask-server-pod
+  labels:
+    environment: test
+    app: my_flask
+spec:
+  containers:
+    - name: my-flask
+      image: ghcr.io/zuhataslan/my_flask:latest
+  imagePullSecrets:
+    - name: ghcr
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: svc-my-flask
+spec:
+  type: NodePort
+  selector:
+    app: my_flask
+  ports:
+    - nodePort: 31234
+      port: 5000
+      targetPort: 5000
